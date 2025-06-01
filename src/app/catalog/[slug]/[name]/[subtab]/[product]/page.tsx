@@ -277,7 +277,7 @@ export default function ProductPage() {
                       alt=""
                       width={48}
                       height={65}
-                      className="object-cover w-full"
+                      className="object-cover"
                     />
                   </div>
                   <div className="relative pb-1 hover:border-b-1 hover:border-black">

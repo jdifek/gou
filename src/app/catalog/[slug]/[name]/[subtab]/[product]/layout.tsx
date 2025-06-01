@@ -1,4 +1,3 @@
-import { Footer } from "@/shared/components";
 
 export default function SubtabLayout({
   children,

@@ -2,7 +2,7 @@
 
 import { useRouter, usePathname } from "next/navigation";
 import { MdOutlineKeyboardArrowRight } from "react-icons/md";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import type { MenuItem, Subtab } from "../../../../data";
 import { menuData, getCategoryName } from "../../../../data";
 import { FaTelegramPlane } from "react-icons/fa";
@@ -10,19 +10,12 @@ import { RiShoppingBag4Line } from "react-icons/ri";
 import { CiHeart } from "react-icons/ci";
 import { GoChevronDown, GoChevronUp} from "react-icons/go";
 import { GoTriangleRight } from "react-icons/go";
-import { ArrowLeftIcon, ArrowRightIcon } from "../../../../../../shared/icons";
-import { Item } from "../../../../../../shared/components/Item";
-import { houseSection, menSection, menSectionCarousel, womenSection } from "@/shared/utils";
+import {menSectionCarousel } from "@/shared/utils";
 
 import "./media.css"
 
-
-
-import ProductPageData from "./data";
-
-import { productPageData } from "./data";
 import Image from "next/image";
-import { Footer, ItemsSection } from "@/shared/components";
+import {ItemsSection } from "@/shared/components";
 
 export default function ProductPage() {
 
@@ -32,8 +25,6 @@ export default function ProductPage() {
   }
 
   const router = useRouter();
-
-  const [section, setSection] = useState(menSectionCarousel);
 
   const [isMobile, setIsMobile] = useState(false);
   const [windowWidth, setWindowWidth] = useState(0);
@@ -59,8 +50,6 @@ export default function ProductPage() {
     setCurrentIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
   };
   
-    const segments = pathname.split("/").filter(Boolean);
-    const isProductPage = segments[0] === "catalog" && segments.length === 5;
   
     const [selectedTab, setSelectedTab] = useState<MenuItem | null>(null);
     const [selectedSubtab, setSelectedSubtab] = useState<Subtab | null>(null);
@@ -70,25 +59,7 @@ export default function ProductPage() {
   const [openDelivery, setOpenDelivery] = useState(false);
   const [openExchange, setOpenExchange] = useState(false);
   const [openReview, setOpenReview] = useState(false);
-
-  const scrollContainerRef = useRef<HTMLDivElement>(null);
   
-    const handleScroll = (direction: "left" | "right") => {
-      if (!scrollContainerRef.current) return;
-  
-      // responsive by the width of the screen
-      const scrollAmount = window.innerWidth * 0.4;
-      const currentScroll = scrollContainerRef.current.scrollLeft;
-      const newScroll =
-        direction === "left"
-          ? currentScroll - scrollAmount
-          : currentScroll + scrollAmount;
-  
-      scrollContainerRef.current.scrollTo({
-        left: newScroll,
-        behavior: "smooth",
-      });
-    };
   
     useEffect(() => {
       const segments = pathname.split("/").filter(Boolean);
@@ -164,28 +135,6 @@ export default function ProductPage() {
   
       setBreadcrumbs(newBreadcrumbs);
     };
-  
-    const handleTabClick = (tab: MenuItem) => {
-      const segments = pathname.split("/").filter(Boolean);
-      if (segments.length >= 2) {
-        const categorySlug = segments[1];
-        router.push(`/catalog/${categorySlug}/${tab.path}`);
-        setSelectedTab(tab);
-        setSelectedSubtab(null);
-      }
-    };
-  
-    const handleSubtabClick = (subtab: Subtab) => {
-      const segments = pathname.split("/").filter(Boolean);
-      if (segments.length >= 2 && selectedTab) {
-        const categorySlug = segments[1];
-        router.push(
-          `/catalog/${categorySlug}/${selectedTab.path}/${subtab.path}`
-        );
-        setSelectedSubtab(subtab);
-      }
-    };
-  
   
   return (
     <div className="mt-[40px] w-full">

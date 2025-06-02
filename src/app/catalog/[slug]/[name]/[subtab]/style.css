@@ -1,0 +1,19 @@
+.custom-checkbox {
+    width: 14px;
+    height: 14px;
+    border: 1px solid #D1D5DB;
+    border-radius: 2px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .custom-checkbox .checkmark {
+    width: 8px;
+    height: 8px;
+    background-color: #EF4444;
+    display: none;
+  }
+  .custom-checkbox.checked .checkmark {
+    display: block;
+  }

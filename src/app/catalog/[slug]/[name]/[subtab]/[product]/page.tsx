@@ -177,69 +177,66 @@ export default function ProductPage() {
         </div>
 
         <div className={`main-info flex flex-col items-start w-full ${isMobile ? "pl-[20px] pr-[20px]" : ""}`}>
-          <p className="color-[##1C1C28] text-[20px] font-semibold">Термобілизна чоловіча GOU ПРЕМІУМ <br className={`${isMobile ? "block" : "hidden"}`} /> мікродайвінг на флісі</p>
-          <span className="text-[13px] mt-[5px]">85MEN</span>
+          <p className={`color-[##1C1C28] text-[20px] font-semibold ${isMobile ? "mb-[15px]" : ""}`}>Термобілизна чоловіча GOU ПРЕМІУМ <br className={`${isMobile ? "block" : "hidden"}`} /> мікродайвінг на флісі</p>
+          <span className={`text-[13px] mt-[5px] ${isMobile ? "hidden" : ""}`}>85MEN</span>
 
-    <div className={`relative w-[80%] m-auto ${!isMobile ? "hidden" : ""}`}>
-
-
-      {/* Mobile view - carousel */}
-      <div className="relative overflow-hidden">
-        <div className="flex transition-transform duration-300"
-          style={{ transform: `translateX(-${currentIndex * 100}%)` }}>
-          {images.map((src, index) => (
-            <div key={index} className="w-full flex-shrink-0">
-              <Image 
-                src={src}
-                alt=""
-                width={380}
-                height={506}
-                className="w-full h-auto"
-              />
-            </div>
-          ))}
+          <div className={`relative w-full m-auto ${!isMobile ? "hidden" : ""}`}>
+  <div className="relative overflow-hidden">
+    <div 
+      className="flex transition-transform duration-300"
+      style={{ transform: `translateX(-${currentIndex * 100}%)` }}
+    >
+      {images.map((src, index) => (
+        <div key={index} className="w-full flex-shrink-0">
+          <Image 
+            src={src}
+            alt=""
+            width={380}
+            height={506}
+            className="w-full h-auto"
+          />
         </div>
-
-        {/* Navigation buttons */}
-        <button 
-          onClick={prevImage}
-          className="absolute left-0 top-0 bottom-0 w-1/4 flex items-center justify-start pl-2 z-10"
-          aria-label="Previous image"
-        >
-          <div className="bg-black/30 rounded-full p-2">
-            {/* Left arrow icon */}
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="white" className="w-6 h-6">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
-            </svg>
-          </div>
-        </button>
-
-        <button 
-          onClick={nextImage}
-          className="absolute right-0 top-0 bottom-0 w-1/4 flex items-center justify-end pr-2 z-10"
-          aria-label="Next image"
-        >
-          <div className="bg-black/30 rounded-full p-2">
-            {/* Right arrow icon */}
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="white" className="w-6 h-6">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
-            </svg>
-          </div>
-        </button>
-
-        {/* Indicators */}
-        <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
-          {images.map((_, index) => (
-            <button
-              key={index}
-              onClick={() => setCurrentIndex(index)}
-              className={`w-2 h-2 rounded-full ${currentIndex === index ? 'bg-white' : 'bg-white/50'}`}
-              aria-label={`Go to image ${index + 1}`}
-            />
-          ))}
-        </div>
-      </div>
+      ))}
     </div>
+
+    {/* Кнопки навигации (стрелки) */}
+    <button 
+      onClick={prevImage}
+      className="absolute left-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/30 rounded-full flex items-center justify-center z-10"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="white" className="w-6 h-6">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" />
+      </svg>
+    </button>
+
+    <button 
+      onClick={nextImage}
+      className="absolute right-2 top-1/2 -translate-y-1/2 w-10 h-10 bg-black/30 rounded-full flex items-center justify-center z-10"
+    >
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="white" className="w-6 h-6">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+      </svg>
+    </button>
+
+    {/* Индикаторы (полоска + квадраты) */}
+    <div className="absolute bottom-4 left-0 right-0 flex justify-center gap-2">
+      {images.map((_, index) => (
+        <button
+          key={index}
+          onClick={() => setCurrentIndex(index)}
+          className={`
+            transition-all duration-200
+            ${currentIndex === index 
+              ? 'w-[30px] h-[5px] bg-white'  // Активная — полоска
+              : 'w-[5px] h-[5px] bg-[#D9D9D9] rounded-none'  // Неактивные — квадраты
+            }
+          `}
+          aria-label={`Go to image ${index + 1}`}
+        />
+      ))}
+    </div>
+  </div>
+</div>
 
     <p className="text-[18px] font-semibold mt-[32px]">Костюм чоловічiй флісовий</p>
 
@@ -271,7 +268,7 @@ export default function ProductPage() {
                 <p className="text-[16px] text-[#212121]" ><span className="font-semibold">Колір:</span> cірий</p>
 
                 <div className={`flex gap-[14px] mt-[5px] w-full`}>
-                  <div className="relative pb-1 hover:border-b-1 hover:border-black">
+                  <div className="relative pb-1 hover:shadow-[0_2px_0_0_black] ">
                     <Image
                       src="/assets/ProductPage/ColorsImg/Rectangle 62.png"
                       alt=""
@@ -280,7 +277,7 @@ export default function ProductPage() {
                       className="object-cover"
                     />
                   </div>
-                  <div className="relative pb-1 hover:border-b-1 hover:border-black">
+                  <div className="relative pb-1 hover:shadow-[0_2px_0_0_black]">
                     <Image
                       src="/assets/ProductPage/ColorsImg/Frame 34.png"
                       alt=""
@@ -289,7 +286,7 @@ export default function ProductPage() {
                       className="object-cover"
                     />
                   </div>
-                  <div className="relative pb-1 hover:border-b-1 hover:border-black">
+                  <div className="relative pb-1 hover:shadow-[0_2px_0_0_black]">
                     <Image
                       src="/assets/ProductPage/ColorsImg/Frame 35.png"
                       alt=""
@@ -298,7 +295,7 @@ export default function ProductPage() {
                       className="object-cover"
                     />
                   </div>
-                  <div className="relative pb-1 hover:border-b-1 hover:border-black">
+                  <div className="relative pb-1 hover:shadow-[0_2px_0_0_black]">
                     <Image
                       src="/assets/ProductPage/ColorsImg/Frame 36.png"
                       alt=""
@@ -315,7 +312,7 @@ export default function ProductPage() {
 
 
             <div className={`mt-[32px] w-full ${windowWidth <= 470 ? "text-[10px]" : null}`}>
-              <p className="text-[16px] text-[#212121] font-bold" >Оберіть розмір</p>
+              <p className={`${isMobile ? "hidden" : ""} text-[16px] text-[#212121] font-bold`}>Оберіть розмір</p>
 
               <div className={`flex gap-[10px] w-full ${isMobile ? "justify-between" : ""}`}>
                 <button className="p-[10px] bg-transparent border-1 border-[#EEEEEE] flex justify-center items-center cursor-pointer">S-M</button>

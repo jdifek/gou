@@ -238,7 +238,7 @@ export default function ProductPage() {
   </div>
 </div>
 
-    <p className="text-[18px] font-semibold mt-[32px]">Костюм чоловічiй флісовий</p>
+    <p className={`${!isMobile ? "hidden" : ""} text-[18px] font-semibold mt-[32px] mb-[0px]`}>Костюм чоловічiй флісовий</p>
 
             <div className="prices-colors-container flex flex-col-reverse">
               <div className="prices">
@@ -264,7 +264,7 @@ export default function ProductPage() {
 
 
 
-              <div className="colors mt-[32px] w-full">
+              <div className="colors mt-[5px] w-full">
                 <p className="text-[16px] text-[#212121]" ><span className="font-semibold">Колір:</span> cірий</p>
 
                 <div className={`flex gap-[14px] mt-[5px] w-full`}>

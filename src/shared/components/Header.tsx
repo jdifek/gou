@@ -11,6 +11,7 @@ import {
 } from "../icons";
 import { useRouter, usePathname } from "next/navigation";
 import { Select } from "./Select";
+import { useEffect, useState } from "react";
 
 export const Header = () => {
   const router = useRouter();
@@ -20,6 +21,22 @@ export const Header = () => {
     return pathname?.startsWith(path) || false;
   };
 
+   const [isMobile, setIsMobile] = useState(false);
+  
+    useEffect(() => {
+      const handleResize = () => {
+        setIsMobile(window.innerWidth <= 767);
+      };
+  
+      // Проверяем при первоначальной загрузке
+      handleResize();
+  
+      // Добавляем слушатель изменений размера
+      window.addEventListener("resize", handleResize);
+  
+      // Убираем слушатель при размонтировании
+      return () => window.removeEventListener("resize", handleResize);
+    }, []);
   return (
     <header className="flex flex-col items-center justify-center w-full">
       <div className="container relative h-[65px] flex items-center justify-center px-[12px]">
@@ -77,7 +94,7 @@ export const Header = () => {
         </div>
       </div>
 
-      <div className="h-[58px] bg-[#1C1C28] flex items-center justify-center w-full">
+      <div className={`h-[58px] bg-[#1C1C28] flex items-center justify-center w-full ${isMobile ? "hidden" : ""}`}>
         <ul className="flex items-center justify-center gap-[80px] text-white font-medium text-[18px] leading-[18px]">
           <Link href="/catalog/women">
             <li

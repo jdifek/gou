@@ -3,6 +3,7 @@ import { usePathname } from "next/navigation";
 import { menuData } from "../data";
 import { useRouter } from "next/navigation";
 import { CategoryItem } from "@/shared/components/CategoryItem";
+import { useEffect, useState } from "react";
 export default function CatalogPage() {
   const pathname = usePathname();
   const router = useRouter();
@@ -16,6 +17,21 @@ export default function CatalogPage() {
     return null;
   };
 
+  const[windowWidth, setWindowWidth] = useState(0);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+      setWindowWidth(window.screen.width);
+      window.addEventListener("resize", () => {
+        setWindowWidth(window.screen.width);
+      })
+    }, []);
+  
+    useEffect(() => {
+      if (windowWidth <= 767) setIsMobile(true);
+      else setIsMobile(false);
+    }, [windowWidth]);
+
   return (
     <>
       {!findSelectedTab() ? (
@@ -27,7 +43,7 @@ export default function CatalogPage() {
                 {category.name}
               </p>
             </div>
-            <div className="flex gap-[6px] items-center flex-wrap">
+            <div className={`flex gap-[6px] items-center flex-wrap ${isMobile ? "justify-center" : ""} ${windowWidth >= 544 ? "!justify-between" : ""} ${windowWidth >= 768 ? "!justify-start" : ""}`}>
               {category.subtabs.slice(0, 3).map((subtab) => (
                 <div
                   key={subtab.id}

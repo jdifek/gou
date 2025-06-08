@@ -70,6 +70,12 @@ const MobileFiltersModal = ({
     });
   };
 
+  const priceFilter = allFilters.find(filter => filter.name === "Ціна");
+  const otherFilters = allFilters.filter(filter => 
+    filter.name !== "Показати всі фільтри" && 
+    filter.name !== "Ціна"
+  );
+
   const resetFilters = () => {
     setSelectedOptions({});
     setPriceRange({});
@@ -83,117 +89,124 @@ const MobileFiltersModal = ({
       <div className="h-full flex flex-col">
         {/* Header */}
         <div className="p-4 border-b border-gray-200">
-          <div className="flex justify-between items-center">
+          <div className="flex flex-row-reverse justify-between items-center">
             <button onClick={onClose} className="text-[#1C1C28] text-2xl">
               ×
             </button>
-            <h2 className="text-[14px] font-medium">Фільтри</h2>
-            <button onClick={resetFilters} className="text-[#1C1C28] text-[14px] font-semibold">
-              Скинути
-            </button>
+            <h2 className="text-[14px] font-medium m-auto font-bold">Фільтри</h2>
+            
           </div>
         </div>
 
         {/* Filters list with scroll */}
         <div className="flex-1 overflow-y-auto p-4">
           <div className="space-y-2">
-            {allFilters
-              .filter((filter) => filter.name !== "Показати всі фільтри") // Исключаем "Показати всі фільтри"
-              .map((filter) => {
-                const filterData = filtersData[filter.name as keyof typeof filtersData] as FilterData;
+            {/* Остальные фильтры (аккордеон) */}
+            {otherFilters.map((filter) => {
+              const filterData = filtersData[filter.name as keyof typeof filtersData] as FilterData;
 
-                return (
-                  <div key={filter.id} className="border-b border-gray-200 pb-2">
-                    <div
-                      className="flex justify-between items-center py-3 cursor-pointer"
-                      onClick={() => toggleFilter(filter.name)}
-                    >
-                      <span className="text-[14px] font-medium">{filter.name}</span>
-                      <MdKeyboardArrowDown
-                        className={`transition-transform ${expandedFilter === filter.name ? "rotate-180" : ""}`}
+              return (
+                <div key={filter.id} className="border-b border-gray-200 pb-2">
+                  <div
+                    className="flex justify-between items-center py-3 cursor-pointer"
+                    onClick={() => toggleFilter(filter.name)}
+                  >
+                    <span className="text-[14px] font-medium">{filter.name}</span>
+                    <MdKeyboardArrowDown
+                      className={`transition-transform ${expandedFilter === filter.name ? "rotate-180" : ""}`}
+                    />
+                  </div>
+
+                  {expandedFilter === filter.name && (
+                    <div className="pb-3">
+                      {/* Рендеринг содержимого фильтра */}
+                      {filterData.type === "checkbox" && (
+                        <div className="flex flex-col text-[14px] gap-[16px]">
+                          {filterData.options?.map((option, idx) => (
+                            <label key={idx} className="flex items-center gap-2 cursor-pointer">
+                            <div className="relative border-[1px] border-[#666666]">
+                              <input
+                                type="checkbox"
+                                checked={selectedOptions[filter.name]?.includes(typeof option === "string" ? option : option.name) || false}
+                                onChange={() => handleCheckboxChange(filter.name, option)}
+                                className="absolute opacity-0 w-0 h-0"
+                              />
+                              <div
+                                className={`custom-checkbox ${
+                                  selectedOptions[filter.name]?.includes(typeof option === "string" ? option : option.name) ? "checked" : ""
+                                }`}
+                              >
+                                <div className="checkmark"></div>
+                              </div>
+                            </div>
+                            {typeof option === "string" ? (
+                              <span>{option}</span>
+                            ) : (
+                              <>
+                                <div
+                                  className="w-4 h-4 border border-gray-300"
+                                  style={{ backgroundColor: option.color }}
+                                />
+                                <span>{option.name}</span>
+                              </>
+                            )}
+                          </label>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              );
+            })}
+
+            {/* Фильтр "Ціна" - всегда открыт */}
+            {priceFilter && (
+              <div className="border-b border-gray-200 pb-2">
+                <div className="flex justify-center items-center py-3">
+                  <span className="text-[14px] font-medium">{priceFilter.name}</span>
+                </div>
+                <div className="pb-3">
+                  {/* Рендеринг фильтра цены */}
+                  <div className="space-y-4">
+                    <div className="flex justify-between">
+                      <input
+                        type="number"
+                        value={priceRange[priceFilter.name]?.[0] || filtersData["Ціна"].min_price || 0}
+                        onChange={(e) => handlePriceChange(priceFilter.name, 0, parseInt(e.target.value))}
+                        className="w-24 h-8 border p-1 text-[14px]"
+                        min={filtersData["Ціна"].min_price}
+                        max={filtersData["Ціна"].max_price}
+                      />
+                      <input
+                        type="number"
+                        value={priceRange[priceFilter.name]?.[1] || filtersData["Ціна"].max_price || 0}
+                        onChange={(e) => handlePriceChange(priceFilter.name, 1, parseInt(e.target.value))}
+                        className="w-24 h-8 border p-1 text-[14px]"
+                        min={filtersData["Ціна"].min_price}
+                        max={filtersData["Ціна"].max_price}
                       />
                     </div>
-
-                    {expandedFilter === filter.name && (
-                      <div className="pb-3">
-                        {filterData.type === "checkbox" && (
-                          <div className="flex flex-col text-[14px] gap-[16px]">
-                            {filterData.options?.map((option, idx) => (
-                              <label key={idx} className="flex items-center gap-2 cursor-pointer">
-                                <div className="relative border-[1px] border-[#666666]">
-                                  <input
-                                    type="checkbox"
-                                    checked={selectedOptions[filter.name]?.includes(typeof option === "string" ? option : option.name) || false}
-                                    onChange={() => handleCheckboxChange(filter.name, option)}
-                                    className="absolute opacity-0 w-0 h-0"
-                                  />
-                                  <div
-                                    className={`custom-checkbox ${
-                                      selectedOptions[filter.name]?.includes(typeof option === "string" ? option : option.name) ? "checked" : ""
-                                    }`}
-                                  >
-                                    <div className="checkmark"></div>
-                                  </div>
-                                </div>
-                                {typeof option === "string" ? (
-                                  <span>{option}</span>
-                                ) : (
-                                  <>
-                                    <div
-                                      className="w-4 h-4 border border-gray-300"
-                                      style={{ backgroundColor: option.color }}
-                                    />
-                                    <span>{option.name}</span>
-                                  </>
-                                )}
-                              </label>
-                            ))}
-                          </div>
-                        )}
-
-                        {filterData.type === "range" && filterData.min_price !== undefined && filterData.max_price !== undefined && (
-                          <div className="space-y-4">
-                            <div className="flex justify-between">
-                              <input
-                                type="number"
-                                value={priceRange[filter.name]?.[0] || filterData.min_price}
-                                onChange={(e) => handlePriceChange(filter.name, 0, parseInt(e.target.value))}
-                                className="w-24 h-8 border p-1 text-[14px]"
-                                min={filterData.min_price}
-                                max={filterData.max_price}
-                              />
-                              <input
-                                type="number"
-                                value={priceRange[filter.name]?.[1] || filterData.max_price}
-                                onChange={(e) => handlePriceChange(filter.name, 1, parseInt(e.target.value))}
-                                className="w-24 h-8 border p-1 text-[14px]"
-                                min={filterData.min_price}
-                                max={filterData.max_price}
-                              />
-                            </div>
-                            <input
-                              type="range"
-                              min={filterData.min_price}
-                              max={filterData.max_price}
-                              value={priceRange[filter.name]?.[0] || filterData.min_price}
-                              onChange={(e) => handlePriceChange(filter.name, 0, parseInt(e.target.value))}
-                              className="w-full"
-                            />
-                            <input
-                              type="range"
-                              min={filterData.min_price}
-                              max={filterData.max_price}
-                              value={priceRange[filter.name]?.[1] || filterData.max_price}
-                              onChange={(e) => handlePriceChange(filter.name, 1, parseInt(e.target.value))}
-                              className="w-full"
-                            />
-                          </div>
-                        )}
-                      </div>
-                    )}
+                    <input
+                      type="range"
+                      min={filtersData["Ціна"].min_price}
+                      max={filtersData["Ціна"].max_price}
+                      value={priceRange[priceFilter.name]?.[0] || filtersData["Ціна"].min_price || 0}
+                      onChange={(e) => handlePriceChange(priceFilter.name, 0, parseInt(e.target.value))}
+                      className="w-full"
+                    />
+                    <input
+                      type="range"
+                      min={filtersData["Ціна"].min_price}
+                      max={filtersData["Ціна"].max_price}
+                      value={priceRange[priceFilter.name]?.[1] || filtersData["Ціна"].max_price || 0}
+                      onChange={(e) => handlePriceChange(priceFilter.name, 1, parseInt(e.target.value))}
+                      className="w-full"
+                    />
                   </div>
-                );
-              })}
+                </div>
+              </div>
+            )}
           </div>
         </div>
 

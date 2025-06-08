@@ -1,6 +1,7 @@
 "use client";
 
 import Image from "next/image";
+import { MobileMenu } from "./MobileMenu";
 import Link from "next/link";
 import {
   BurgerMenuIcon,
@@ -22,6 +23,15 @@ export const Header = () => {
   };
 
    const [isMobile, setIsMobile] = useState(false);
+   const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+   useEffect(() => {
+    if (isMenuOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+   }, [isMenuOpen])
   
     useEffect(() => {
       const handleResize = () => {
@@ -55,7 +65,7 @@ export const Header = () => {
             </div>
           </div>
           <div className="flex gap-[12px] items-center absolute left-[12px] md:left-1/2 md:-translate-x-1/2">
-            <div className="block md:hidden">
+            <div className="block md:hidden" onClick={() => setIsMenuOpen(true)}>
               <BurgerMenuIcon className="cursor-pointer" />
             </div>
             <Link href="/">
@@ -142,6 +152,12 @@ export const Header = () => {
           </Link>
         </ul>
       </div>
+
+      {/* Мобильное меню */}
+      <MobileMenu 
+        isOpen={isMenuOpen} 
+        onClose={() => setIsMenuOpen(false)} 
+      />
     </header>
   );
 };

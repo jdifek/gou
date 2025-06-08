@@ -79,7 +79,7 @@ export const ItemsSection = ({ section }: ItemsSectionProps) => {
         <div className={`relative ${section?.onlyCarousel || isMobile ? "w-full" : "w-[75%]"}`}>
           <div
             onClick={() => handleScroll("left")}
-            className="absolute top-[215px] -translate-y-1/2 left-[-48px] h-[33px] w-[33px] flex items-center justify-center cursor-pointer bg-[#EEEEEE] hover:bg-gray-200 transition-colors"
+            className={`${windowWidth <= 767 ? "hidden" : ""} absolute top-[215px] -translate-y-1/2 left-[-48px] h-[33px] w-[33px] flex items-center justify-center cursor-pointer bg-[#EEEEEE] hover:bg-gray-200 transition-colors`}
           >
             <ArrowLeftIcon />
           </div>
@@ -100,7 +100,7 @@ export const ItemsSection = ({ section }: ItemsSectionProps) => {
           </div>
           <div
             onClick={() => handleScroll("right")}
-            className="absolute top-[215px] -translate-y-1/2 -right-[48px] h-[33px] w-[33px] flex items-center justify-center cursor-pointer bg-[#EEEEEE] hover:bg-gray-200 transition-colors"
+            className={`${windowWidth <= 767 ? "hidden" : ""} absolute top-[215px] -translate-y-1/2 -right-[48px] h-[33px] w-[33px] flex items-center justify-center cursor-pointer bg-[#EEEEEE] hover:bg-gray-200 transition-colors`}
           >
             <ArrowRightIcon />
           </div>

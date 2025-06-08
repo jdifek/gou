@@ -37,6 +37,10 @@ export default function CatalogLayout({
   const [selectedSubtab, setSelectedSubtab] = useState<Subtab | null>(null);
   const [breadcrumbs, setBreadcrumbs] = useState<Breadcrumb[]>([]);
 
+  const [windowWidth, setWindowWidth] = useState(0);
+
+  
+
   useEffect(() => {
     const segments = pathname.split("/").filter(Boolean);
     if (segments.length >= 2) {
@@ -133,9 +137,16 @@ export default function CatalogLayout({
     return <>{children}</>;
   }
 
+  useEffect(() => {
+    setWindowWidth(window.screen.width);
+    window.addEventListener("resize", () => {
+      setWindowWidth(window.screen.width);
+    })
+  }, []);
+
   return (
     <div className="flex flex-col">
-      <div className={`flex flex-col gap-[24px] ${isMobile ? "" : "container"} px-[12px] mt-[48px] m-auto`}>
+      <div className={`flex flex-col gap-[24px] ${isMobile ? "" : "container"} px-[12px] mt-[48px] ${windowWidth > 768 ? "m-auto" : ""}`}>
         <p className="text-[18px] font-bold text-center">{getCategory()}</p>
         <div className="flex items-center flex-wrap gap-1">
           {breadcrumbs.map((crumb, index) => (

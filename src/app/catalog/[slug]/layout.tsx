@@ -134,8 +134,8 @@ export default function CatalogLayout({
   }
 
   return (
-    <div className="flex flex-col items-center justify-center w-full">
-      <div className="flex flex-col gap-[24px] container px-[12px] mt-[48px]">
+    <div className="flex flex-col">
+      <div className={`flex flex-col gap-[24px] ${isMobile ? "" : "container"} px-[12px] mt-[48px]`}>
         <p className="text-[18px] font-bold text-center">{getCategory()}</p>
         <div className="flex items-center flex-wrap gap-1">
           {breadcrumbs.map((crumb, index) => (

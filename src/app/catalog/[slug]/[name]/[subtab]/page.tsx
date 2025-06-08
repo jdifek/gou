@@ -8,7 +8,7 @@ import { MdKeyboardArrowDown } from "react-icons/md";
 import { SettingsIcons } from "@/shared/icons";
 import Link from "next/link";
 import { filtersData } from "./filtersData";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type FilterOption = string | { name: string; color: string };
 
@@ -52,6 +52,19 @@ const FilterDropdown = ({
   const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
   const [priceRange, setPriceRange] = useState([min_price || 0, max_price || 0]);
   const [colorInput, setColorInput] = useState<string>("");
+  const [isMobile, setIsMobile] = useState(false);
+  const[windowWidth, setWindowWidth] = useState(0);
+  useEffect(() => {
+      setWindowWidth(window.screen.width);
+      window.addEventListener("resize", () => {
+        setWindowWidth(window.screen.width);
+      })
+    }, []);
+  
+    useEffect(() => {
+      if (windowWidth <= 767) setIsMobile(true);
+      else setIsMobile(false);
+    }, [windowWidth]);
 
   const selectedCount = selectedOptions.length + 
     (type === 'range' && (priceRange[0] !== min_price || priceRange[1] !== max_price) ? 1 : 0);
@@ -110,68 +123,68 @@ const FilterDropdown = ({
       </div>
 
       {type === 'checkbox' && (
-  <div className="flex flex-col text-[14px] gap-[16px]">
-    {options.map((option, idx) => (
-      <label key={idx} className="flex items-center gap-2 cursor-pointer">
-        <div className="relative border-[1px] border-[#666666]">
-          <input
-            type="checkbox"
-            checked={selectedOptions.includes(typeof option === 'string' ? option : option.name)}
-            onChange={() => handleCheckboxChange(typeof option === 'string' ? option : option.name)}
-            className="absolute opacity-0 w-0 h-0"
-          />
-          <div className={`custom-checkbox ${
-            selectedOptions.includes(typeof option === 'string' ? option : option.name) ? 'checked' : ''
-          }`}>
-            <div className="checkmark"></div>
-          </div>
-        </div>
-        {typeof option === 'string' ? (
-          <span>{option}</span>
-        ) : (
-          <>
-            <div 
-              className="w-4 h-4 border border-gray-300"
-              style={{ backgroundColor: option.color }}
-            />
-            <span>{option.name}</span>
-          </>
-        )}
-      </label>
-    ))}
-  </div>
-)}
-{type === 'color' && (
-  <div className="flex flex-col text-[14px] gap-[16px]">
-    {options.map((option, idx) => {
-      if (typeof option !== 'string') {
-        return (
-          <label key={idx} className="flex items-center gap-2 cursor-pointer">
-            <div className="relative">
-              <input
-                type="checkbox"
-                checked={selectedOptions.includes(option.name)}
-                onChange={() => handleCheckboxChange(option.name)}
-                className="absolute opacity-0 w-0 h-0"
-              />
-              <div className={`custom-checkbox ${
-                selectedOptions.includes(option.name) ? 'checked' : ''
-              }`}>
-                <div className="checkmark"></div>
+        <div className="flex flex-col text-[14px] gap-[16px]">
+          {options.map((option, idx) => (
+            <label key={idx} className="flex items-center gap-2 cursor-pointer">
+              <div className="relative border-[1px] border-[#666666]">
+                <input
+                  type="checkbox"
+                  checked={selectedOptions.includes(typeof option === 'string' ? option : option.name)}
+                  onChange={() => handleCheckboxChange(typeof option === 'string' ? option : option.name)}
+                  className="absolute opacity-0 w-0 h-0"
+                />
+                <div className={`custom-checkbox ${
+                  selectedOptions.includes(typeof option === 'string' ? option : option.name) ? 'checked' : ''
+                }`}>
+                  <div className="checkmark"></div>
+                </div>
               </div>
-            </div>
-            <div 
-              className="w-4 h-4 border border-gray-300"
-              style={{ backgroundColor: option.color }}
-            />
-            <span>{option.name}</span>
-          </label>
-        );
-      }
-      return null;
-    })}
-  </div>
-)}
+              {typeof option === 'string' ? (
+                <span>{option}</span>
+              ) : (
+                <>
+                  <div 
+                    className="w-4 h-4 border border-gray-300"
+                    style={{ backgroundColor: option.color }}
+                  />
+                  <span>{option.name}</span>
+                </>
+              )}
+            </label>
+          ))}
+        </div>
+      )}
+      {type === 'color' && (
+        <div className="flex flex-col text-[14px] gap-[16px]">
+          {options.map((option, idx) => {
+            if (typeof option !== 'string') {
+              return (
+                <label key={idx} className="flex items-center gap-2 cursor-pointer">
+                  <div className="relative">
+                    <input
+                      type="checkbox"
+                      checked={selectedOptions.includes(option.name)}
+                      onChange={() => handleCheckboxChange(option.name)}
+                      className="absolute opacity-0 w-0 h-0"
+                    />
+                    <div className={`custom-checkbox ${
+                      selectedOptions.includes(option.name) ? 'checked' : ''
+                    }`}>
+                      <div className="checkmark"></div>
+                    </div>
+                  </div>
+                  <div 
+                    className="w-4 h-4 border border-gray-300"
+                    style={{ backgroundColor: option.color }}
+                  />
+                  <span>{option.name}</span>
+                </label>
+              );
+            }
+            return null;
+          })}
+        </div>
+      )}
 
       {type === 'range' && min_price !== undefined && max_price !== undefined && (
         <div className="space-y-4">
@@ -234,6 +247,22 @@ export default function SubcategoryPage() {
   const pathname = usePathname();
   const [activeFilter, setActiveFilter] = useState<string | null>(null);
   const [showAllFilters, setShowAllFilters] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [windowWidth, setWindowWidth] = useState(0);
+  const [selectedTab, setSelectedTab] = useState<any>(null);
+
+  useEffect(() => {
+    setWindowWidth(window.innerWidth);
+    const handleResize = () => {
+      setWindowWidth(window.innerWidth);
+    };
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
+  useEffect(() => {
+    setIsMobile(windowWidth <= 767);
+  }, [windowWidth]);
 
   const getSelectedSubtab = () => {
     const segments = pathname.split("/").filter(Boolean);
@@ -255,6 +284,14 @@ export default function SubcategoryPage() {
 
   if (!selectedSubtab) return null;
 
+  const handleTabClick = (tab: any) => {
+    setSelectedTab(selectedTab?.id === tab.id ? null : tab);
+  };
+
+  const handleSubtabClick = (subtab: any) => {
+    // Handle subtab click navigation
+  };
+
   const toggleFilter = (filterName: string) => {
     if (filterName === "Показати всі фільтри") {
       setShowAllFilters(!showAllFilters);
@@ -264,43 +301,98 @@ export default function SubcategoryPage() {
     }
   };
 
+  const toggleMobileFilters = () => {
+    setShowAllFilters(!showAllFilters);
+  };
+
   return (
     <div>
-      <div className="flex items-center flex-wrap gap-x-[16px] w-full mb-[24px] relative">
-        {allFilters.map((option) => {
-          if (!option.alwaysVisible && !showAllFilters) return null;
+    {isMobile && (
+  <div className="w-full overflow-x-auto whitespace-nowrap mb-4 px-4 py-2 bg-white overflow-auto">
+    <div className="flex gap-2 justify-start overflow-auto">
+      {menuData.map((item) => (
+        <div
+          key={item.id}
+          className="min-w-[100px] flex justify-center items-center border border-[#888888] cursor-pointer hover:bg-[#212121] hover:text-white text-[14px] px-4 py-2"
+          onClick={() => handleTabClick(item)}
+        >
+          {item.name}
+        </div>
+      ))}
+    </div>
+  </div>
+)}
 
-          const filterData = filtersData[option.name as keyof typeof filtersData] as FilterData;
-          return (
-            <div key={option.id} className="relative w-[25%]">
-              <div
-                onClick={() => toggleFilter(option.name)}
-                className="flex items-center justify-center h-[40px] border-b-1 border-[#EEEEEE] relative cursor-pointer"
-              >
-                {option.id === 12 && <SettingsIcons className="absolute left-3" />}
-                <p className="text-[14px] font-medium">{option.name}</p>
-                <MdKeyboardArrowDown
-                  size={20}
-                  className="absolute right-0 text-[#898686]"
-                />
+      <div className="flex items-center flex-wrap gap-x-[16px] w-full mb-[24px] relative">
+        {isMobile ? (
+          <div className="relative w-full">
+            <div
+              className="flex items-center justify-between h-[40px] relativew-full"
+            >
+              <div className="left_buttons flex gap-[12px]">
+                <div className="w-[25px] h-[25px] border-1 border-[#1C1C28]"></div>
+                <div className="flex">
+                  <div className="w-[15px] h-[25px] border-1 border-[#888888]"></div>
+                  <div className="w-[15px] h-[25px] border-1 border-[#888888]"></div>
+                </div>
               </div>
-              
-              {activeFilter === option.name && (
-                <FilterDropdown
-                  title={option.name}
-                  type={filterData.type}
-                  options={filterData.options}
-                  min_price={filterData.min_price}
-                  max_price={filterData.max_price}
-                  onClose={() => setActiveFilter(null)}
-                />
-              )}
+              <div className="right_button flex gap-[15px]">
+                <p className="text-[14px] font-medium">Фiльтри</p>
+                <SettingsIcons className="" />
+              </div>
             </div>
-          );
-        })}
+            
+            {showAllFilters && (
+              <div className="absolute top-full left-0 w-full bg-white shadow-md z-10 p-4 border border-gray-200 grid grid-cols-2 gap-4">
+                {allFilters.map((option) => (
+                  <div
+                    key={option.id}
+                    onClick={() => toggleFilter(option.name)}
+                    className="flex items-center justify-between p-2 border-b border-gray-100 cursor-pointer"
+                  >
+                    <p className="text-[14px]">{option.name}</p>
+                    <MdKeyboardArrowDown size={20} className="text-[#898686]" />
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+        ) : (
+          allFilters.map((option) => {
+            if (!option.alwaysVisible && !showAllFilters) return null;
+
+            const filterData = filtersData[option.name as keyof typeof filtersData] as FilterData;
+            return (
+              <div key={option.id} className="relative w-[25%]">
+                <div
+                  onClick={() => toggleFilter(option.name)}
+                  className="flex items-center justify-center h-[40px] border-b-1 border-[#EEEEEE] relative cursor-pointer"
+                >
+                  {option.id === 12 && <SettingsIcons className="absolute left-3" />}
+                  <p className="text-[14px] font-medium">{option.name}</p>
+                  <MdKeyboardArrowDown
+                    size={20}
+                    className="absolute right-0 text-[#898686]"
+                  />
+                </div>
+                
+                {activeFilter === option.name && (
+                  <FilterDropdown
+                    title={option.name}
+                    type={filterData.type}
+                    options={filterData.options}
+                    min_price={filterData.min_price}
+                    max_price={filterData.max_price}
+                    onClose={() => setActiveFilter(null)}
+                  />
+                )}
+              </div>
+            );
+          })
+        )}
       </div>
 
-      <div className="flex gap-[6px] items-center flex-wrap">
+      <div className={`${windowWidth <= 683 ? "justify-center" : ""} flex gap-[6px] items-center flex-wrap`}>
         {[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12].map((item) => (
           <Link
             href={`${pathname}/${item}`}

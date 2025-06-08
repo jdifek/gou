@@ -17,6 +17,18 @@ export default function CatalogLayout({
 }) {
   const router = useRouter();
   const pathname = usePathname();
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const handleResize = () => {
+      setIsMobile(window.innerWidth <= 768);
+    };
+
+    handleResize();
+    window.addEventListener('resize', handleResize);
+
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
 
   const segments = pathname.split("/").filter(Boolean);
   const isProductPage = segments[0] === "catalog" && segments.length === 5;
@@ -152,43 +164,51 @@ export default function CatalogLayout({
           ))}
         </div>
         <div className="w-full flex gap-[48px]">
-          <div className="w-[20%] flex flex-col gap-[24px]">
-            <ul className="flex flex-col gap-[24px] text-[16px] font-bold">
-              {menuData.map((item) => (
-                <li
-                  key={item.id}
-                  className="cursor-pointer"
-                  onClick={() => handleTabClick(item)}
-                >
-                  {item.name}
+          {/* Left menu - hidden on mobile */}
+          {!isMobile && (
+            <div className="w-[20%] flex flex-col gap-[24px]">
+              <ul className="flex flex-col gap-[24px] text-[16px] font-bold">
+                {menuData.map((item) => (
+                  <li
+                    key={item.id}
+                    className="cursor-pointer"
+                    onClick={() => handleTabClick(item)}
+                  >
+                    {item.name}
 
-                  {selectedTab?.id === item.id && (
-                    <ul className="ml-[64px] mt-3 flex flex-col gap-[16px] text-[14px] font-medium relative">
-                      {item.subtabs.map((subtab) => (
-                        <li
-                          key={subtab.id}
-                          className="cursor-pointer text-black"
-                          onClick={(e) => {
-                            e.stopPropagation();
-                            handleSubtabClick(subtab);
-                          }}
-                        >
-                          <div className="flex items-center gap-2">
-                            {selectedSubtab?.id === subtab.id && (
-                              <div className="absolute left-[-10px] w-[2px] h-[14px] bg-[#D13030]" />
-                            )}
-                            {subtab.name}
-                          </div>
-                        </li>
-                      ))}
-                    </ul>
-                  )}
-                </li>
-              ))}
-            </ul>
+                    {selectedTab?.id === item.id && (
+                      <ul className="ml-[64px] mt-3 flex flex-col gap-[16px] text-[14px] font-medium relative">
+                        {item.subtabs.map((subtab) => (
+                          <li
+                            key={subtab.id}
+                            className="cursor-pointer text-black"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleSubtabClick(subtab);
+                            }}
+                          >
+                            <div className="flex items-center gap-2">
+                              {selectedSubtab?.id === subtab.id && (
+                                <div className="absolute left-[-10px] w-[2px] h-[14px] bg-[#D13030]" />
+                              )}
+                              {subtab.name}
+                            </div>
+                          </li>
+                        ))}
+                      </ul>
+                    )}
+                  </li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Content - centered on mobile */}
+          <div className={`${isMobile ? "w-full flex justify-center" : "w-[80%]"}`}>
+            <div className={`w-full`}>
+              {children}
+            </div>
           </div>
-
-          <div className="w-[80%]">{children}</div>
         </div>
       </div>
     </div>

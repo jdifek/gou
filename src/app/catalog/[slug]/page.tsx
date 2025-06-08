@@ -20,7 +20,7 @@ export default function CatalogPage() {
     <>
       {!findSelectedTab() ? (
         menuData.map((category) => (
-          <div key={category.id} className="first:mt-0 mt-[48px]">
+          <div key={category.id} className="first:mt-0 mt-[48px] ">
             <div className="flex items-center h-[20px] gap-[10px] mb-[24px]">
               <div className="w-[2px] h-[100%] bg-[#D13030]" />
               <p className="text-[16px] font-medium uppercase">

@@ -13,6 +13,7 @@ import {
 import { useRouter, usePathname } from "next/navigation";
 import { Select } from "./Select";
 import { useEffect, useState } from "react";
+import MobileSearch from "./MobileSearch";
 
 export const Header = () => {
   const router = useRouter();
@@ -24,14 +25,15 @@ export const Header = () => {
 
    const [isMobile, setIsMobile] = useState(false);
    const [isMenuOpen, setIsMenuOpen] = useState(false);
+   const [isSearchOpen, setIsSearchOpen] = useState(false);
 
    useEffect(() => {
-    if (isMenuOpen) {
+    if (isMenuOpen || isSearchOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
     }
-   }, [isMenuOpen])
+   }, [isMenuOpen, isSearchOpen])
   
     useEffect(() => {
       const handleResize = () => {
@@ -79,7 +81,7 @@ export const Header = () => {
             </Link>
           </div>
           <div className="flex items-center gap-4 w-[350px] justify-end">
-            <div className="flex items-center md:hidden text-black">
+            <div className="flex items-center md:hidden text-black" onClick={() => setIsSearchOpen(true)}>
               <SearchIcon className="cursor-pointer" />
             </div>
             <div
@@ -157,6 +159,11 @@ export const Header = () => {
       <MobileMenu 
         isOpen={isMenuOpen} 
         onClose={() => setIsMenuOpen(false)} 
+      />
+
+      <MobileSearch 
+        isOpen={isSearchOpen} 
+        onClose={() => setIsSearchOpen(false)} 
       />
     </header>
   );

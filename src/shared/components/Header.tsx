@@ -54,9 +54,30 @@ export const Header = () => {
       <div className="container relative h-[65px] flex items-center justify-center px-[12px]">
         <div className="w-full flex items-center justify-between">
           <div className="flex items-center gap-2 w-[350px]">
-            <div className="hidden md:block">
+            <div className="md:block">
               <Select />
             </div>
+
+            <div className="md:block">
+              <div className="flex items-center gap-2 relative">
+                <SearchIcon className="cursor-pointer absolute left-3 text-gray-400" />
+                <input
+                  type="text"
+                  placeholder="Пошук"
+                  className="w-full border-b border-b-[#D9D9D9] pl-[60px] py-1 placeholder:text-[#888888] placeholder:text-[16px] focus:outline-none"
+                />
+              </div>
+            </div>
+
+            <div className="hidden lg:flex items-center gap-2 relative">
+              <SearchIcon className="cursor-pointer absolute left-1" />
+              <input
+                type="text"
+                placeholder="Пошук"
+                className="w-[250px] border-b-1 border-b-[#D9D9D9] pl-12 py-1 placeholder:text-[#888888] placeholder:text-[16px] placeholder:font-medium"
+              />
+            </div>
+
             <div className="hidden lg:flex items-center gap-2 relative">
               <SearchIcon className="cursor-pointer absolute left-1" />
               <input
@@ -69,7 +90,10 @@ export const Header = () => {
           <div className="flex gap-[12px] items-center absolute left-[12px] md:left-1/2 md:-translate-x-1/2">
             <div className="block md:hidden" onClick={() => setIsMenuOpen(true)}>
               <BurgerMenuIcon className="cursor-pointer" />
+              
             </div>
+
+            
             <Link href="/">
               <Image
                 className="w-[80px] md:w-[100px]"

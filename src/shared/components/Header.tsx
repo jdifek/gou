@@ -71,23 +71,7 @@ export const Header = () => {
               </div>
             </div>
 
-            <div className="hidden lg:flex items-center gap-2 relative">
-              <SearchIcon className="cursor-pointer absolute left-1" />
-              <input
-                type="text"
-                placeholder="Пошук"
-                className="w-[250px] border-b-1 border-b-[#D9D9D9] pl-12 py-1 placeholder:text-[#888888] placeholder:text-[16px] placeholder:font-medium"
-              />
-            </div>
 
-            <div className="hidden lg:flex items-center gap-2 relative">
-              <SearchIcon className="cursor-pointer absolute left-1" />
-              <input
-                type="text"
-                placeholder="Пошук"
-                className="w-[250px] border-b-1 border-b-[#D9D9D9] pl-12 py-1 placeholder:text-[#888888] placeholder:text-[16px] placeholder:font-medium"
-              />
-            </div>
           </div>
           <div className="flex gap-[12px] items-center absolute left-[12px] md:left-1/2 md:-translate-x-1/2">
             <div className="block md:hidden" onClick={() => setIsMenuOpen(true)}>

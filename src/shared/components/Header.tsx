@@ -54,11 +54,11 @@ export const Header = () => {
       <div className="container relative h-[65px] flex items-center justify-center px-[12px]">
         <div className="w-full flex items-center justify-between">
           <div className="flex items-center gap-2 w-[350px]">
-            <div className="md:block">
+            <div className={`md:block ${isMobile ? "hidden" : ""}`}>
               <Select />
             </div>
 
-            <div className="md:block">
+            <div className={`md:block ${isMobile ? "hidden" : ""}`}>
               <div className="flex items-center gap-2 relative">
                 <SearchIcon className="cursor-pointer absolute left-3 text-gray-400" />
                 <input

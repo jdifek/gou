@@ -28,15 +28,19 @@ const colors = [
   },
 ];
 
+interface ItemProps {
+  isDiscount: boolean;
+  images: string[];
+  name: string;
+  variant?: "default" | "compact"; // Добавляем пропс для управления размером
+}
+
 export const Item = ({
   isDiscount,
   images,
   name,
-}: {
-  isDiscount: boolean;
-  images: string[];
-  name: string;
-}) => {
+  variant = "default", // Значение по умолчанию
+}: ItemProps) => {
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
 
   const handlePreviousImage = () => {
@@ -51,8 +55,30 @@ export const Item = ({
     );
   };
 
+  // Размеры в зависимости от варианта
+  const dimensions = {
+    default: {
+      container: "w-[320px] min-h-[430px]",
+      image: "h-[430px]",
+      imageWidth: 320,
+      imageHeight: 430,
+      topPosition: "top-[183px]",
+      discountTop: "top-2",
+    },
+    compact: {
+      container: "w-[200px] min-h-[300px]",
+      image: "h-[300px]",
+      imageWidth: 200,
+      imageHeight: 300,
+      topPosition: "top-[128px]",
+      discountTop: "top-1",
+    },
+  };
+
+  const currentVariant = dimensions[variant];
+
   return (
-    <div className="w-[320px] min-h-[430px] flex-shrink-0 relative pb-[12px]">
+    <div className={`${currentVariant.container} flex-shrink-0 relative pb-[12px]`}>
       <div className="relative group">
         <div className="absolute bottom-0 left-0 w-full h-[64px] px-[32px] bg-[#FFFFFFE0] flex flex-col items-center justify-center gap-2 opacity-0 group-hover:opacity-100">
           <p className="text-[12px] text-center font-normal">Оберіть розмір</p>
@@ -69,27 +95,27 @@ export const Item = ({
           </ul>
         </div>
         <div
-          className="absolute top-[183px] left-2 -translate-y-1/2 text-[#888888] cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+          className={`absolute ${currentVariant.topPosition} left-2 -translate-y-1/2 text-[#888888] cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-200`}
           onClick={handlePreviousImage}
         >
-          <FaChevronLeft />
+          <FaChevronLeft size={variant === "compact" ? 12 : 16} />
         </div>
         <div
-          className="absolute top-[183px] right-2 -translate-y-1/2 text-[#888888] cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-200"
+          className={`absolute ${currentVariant.topPosition} right-2 -translate-y-1/2 text-[#888888] cursor-pointer opacity-0 group-hover:opacity-100 transition-opacity duration-200`}
           onClick={handleNextImage}
         >
-          <FaChevronRight />
+          <FaChevronRight size={variant === "compact" ? 12 : 16} />
         </div>
         <Image
-          className="w-full h-[430px] object-cover cursor-pointer transition-opacity duration-300"
+          className={`w-full ${currentVariant.image} object-cover cursor-pointer transition-opacity duration-300`}
           src={images[currentImageIndex]}
           alt="item"
-          width={320}
-          height={430}
+          width={currentVariant.imageWidth}
+          height={currentVariant.imageHeight}
         />
 
         {isDiscount && (
-          <div className="absolute top-2 right-2 h-[24px] flex items-center justify-center bg-[#D13030] text-white px-2 py-1 z-20">
+          <div className={`absolute ${currentVariant.discountTop} right-2 h-[20px] flex items-center justify-center bg-[#D13030] text-white px-2 py-1 z-20 text-[12px]`}>
             -51%
           </div>
         )}

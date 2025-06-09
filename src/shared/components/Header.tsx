@@ -14,6 +14,7 @@ import { useRouter, usePathname } from "next/navigation";
 import { Select } from "./Select";
 import { useEffect, useState } from "react";
 import MobileSearch from "./MobileSearch";
+import FullscreenSearch from "./FullscreenSearch";
 
 export const Header = () => {
   const router = useRouter();
@@ -26,14 +27,15 @@ export const Header = () => {
    const [isMobile, setIsMobile] = useState(false);
    const [isMenuOpen, setIsMenuOpen] = useState(false);
    const [isSearchOpen, setIsSearchOpen] = useState(false);
+   const [isFullscreenSearchOpen, setIsFullscreenSearchOpen] = useState(false);
 
    useEffect(() => {
-    if (isMenuOpen || isSearchOpen) {
+    if (isMenuOpen || isSearchOpen || isFullscreenSearchOpen) {
       document.body.style.overflow = "hidden";
     } else {
       document.body.style.overflow = "";
     }
-   }, [isMenuOpen, isSearchOpen])
+   }, [isMenuOpen, isSearchOpen, isFullscreenSearchOpen])
   
     useEffect(() => {
       const handleResize = () => {
@@ -59,7 +61,7 @@ export const Header = () => {
             </div>
 
             <div className={`md:block ${isMobile ? "hidden" : ""}`}>
-              <div className="flex items-center gap-2 relative">
+              <div className="flex items-center gap-2 relative" onClick={() => setIsFullscreenSearchOpen(true)}>
                 <SearchIcon className="cursor-pointer absolute left-3 text-gray-400" />
                 <input
                   type="text"
@@ -188,6 +190,12 @@ export const Header = () => {
       <MobileSearch 
         isOpen={isSearchOpen} 
         onClose={() => setIsSearchOpen(false)} 
+      />
+
+      {/* Новый компонент для полноэкранного поиска на ПК */}
+      <FullscreenSearch 
+        isOpen={isFullscreenSearchOpen}
+        onClose={() => setIsFullscreenSearchOpen(false)}
       />
     </header>
   );

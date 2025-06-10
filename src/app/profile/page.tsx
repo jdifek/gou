@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from 'react';
 import ProfileItem from '@/shared/components/ProfileItem';
+import { RiArrowLeftSLine } from 'react-icons/ri'; // Import the left arrow icon
 
 import img from "../../../public/assets/item-placeholder-7.png";
 import { StaticImageData } from 'next/image';
@@ -37,7 +38,7 @@ const Profile: React.FC = () => {
   useEffect(() => {
     setWindowWidth(window.innerWidth);
 
-    if (window.innerWidth <= 1023){
+    if (window.innerWidth <= 1023) {
       setIsMobile(true);
     }
     window.addEventListener("resize", () => {
@@ -53,12 +54,12 @@ const Profile: React.FC = () => {
     } else {
       setIsMobile(false);
     }
-    console.log(windowWidth)
+    console.log(windowWidth);
   }, [windowWidth]);
 
   useEffect(() => {
-    {!isMobile ? setActiveMenu("Історія замовлень") : setActiveMenu("")}
-  }, [isMobile])
+    !isMobile ? setActiveMenu("Історія замовлень") : setActiveMenu("");
+  }, [isMobile]);
 
   const orders: Order[] = [
     {
@@ -123,7 +124,12 @@ const Profile: React.FC = () => {
         if (isMobile) {
           return (
             <div className="w-full p-4">
-              <h2 className="text-xl font-semibold mb-6 text-center">Історія замовлень</h2>
+              <h2 onClick={() => window.location.reload()} className="cursor-pointer text-xl font-semibold mb-6 text-center flex items-center justify-between">
+                <RiArrowLeftSLine 
+                  className="mr-2 cursor-pointer" 
+                />
+                <span className='mx-auto'>Історія замовлень</span>
+              </h2>
               {orders.map((order) => (
                 <div key={order.id} className="bg-white p-4 mb-4">
                   <div className="flex justify-between items-center mb-4">
@@ -194,7 +200,12 @@ const Profile: React.FC = () => {
         if (isMobile) {
           return (
             <div className="w-full p-4">
-              <h2 className="text-xl font-semibold mb-6 text-center">Мої дані</h2>
+              <h2 onClick={() => window.location.reload()} className="flex justify-between cursor-pointer text-xl font-semibold mb-6 text-center items-center">
+                <RiArrowLeftSLine 
+                  className="mr-2 cursor-pointer" 
+                />
+                <span className='mx-auto'>Мої дані</span>
+              </h2>
               <div className="mb-8">
                 <h3 className="text-lg font-semibold mb-4">Основна інформація</h3>
                 <div className="space-y-4">
@@ -318,16 +329,15 @@ const Profile: React.FC = () => {
         if (isMobile) {
           return (
             <div className="w-full p-4">
-              <h2 className="text-xl font-semibold mb-6 text-center">Обране</h2>
+              <h2 onClick={() => window.location.reload()} className="cursor-pointer text-xl font-semibold mb-6 text-center flex items-center justify-between">
+                <RiArrowLeftSLine 
+                  className="mr-2 cursor-pointer" 
+                   
+                />
+                <span className='mx-auto'>Обране</span>
+              </h2>
               {favoriteProducts.map((product) => (
-                <div key={product.id} className="bg-white p-4 mb-4 rounded-lg shadow">
-                  <div className="mb-4">
-                    <p className="text-base font-medium">{product.name}</p>
-                    <p className="text-sm text-gray-600">Розмір: {product.size}</p>
-                    <p className="text-sm text-gray-600">Модель: {product.model}</p>
-                    <p className="text-sm text-gray-600">Наявність: {product.availability}</p>
-                    <p className="text-base font-semibold">{product.originalPrice} грн <span className="text-red-500 line-through">{product.prevPrice} грн</span></p>
-                  </div>
+                <div key={product.id} className="bg-white p-4 mb-4">
                   <ProfileItem 
                     key={product.id}
                     item={product}

@@ -169,25 +169,26 @@ const Profile: React.FC = () => {
               {orders.map((order, i) => (
                 <div key={order.id} className={`${i != 0 ? "border-t-1 border-[#888888] mt-[30px] pt-[30px]" : ""} bg-transparent mb-6`}>
                   <div className="flex justify-between mb-[30px]">
-                    <div>
-                      <p className="text-[16px] font-semibold">№ Замовлення</p>
+                    <div className='grow-2'>
+                      <p className="text-[16px] font-semibold border-b-1 border-[#EEEEEE] pb-[20px]">№ Замовлення</p>
                       <p className={`font-medium mt-[30px] ${order.status == "Вiдмiнено" ? "line-through" : ""}`}>{order.orderNumber}</p>
                     </div>
                     <div className=""></div>
-                    <div className="flex gap-[100px] justify-between">
-                      <div>
-                        <p className="text-[16px] font-semibold">Статус</p>
+                    <div className="flex justify-between grow-1">
+                      <div className='grow-1 flex flex-col'>
+                        <p className="text-[16px] font-semibold border-b-1 border-[#EEEEEE] grow-1 pb-[20px]">Статус</p>
                         <p className={`font-medium mt-[30px] ${order.status === "Виконано" ? "text-green-600" : "text-[#888888]"}`}>{order.status}</p>
                       </div>
-                      <div>
-                        <p className="text-[16px] font-semibold">Дата</p>
+                      <div className='grow-1'>
+                        <p className="text-[16px] font-semibold border-b-1 border-[#EEEEEE] pb-[20px]">Дата</p>
                         <p className="font-normal mt-[30px]">{order.date}</p>
                       </div>
                     </div>
-                    <div>
-                      <p className="text-[16px] font-semibold">Сума</p>
+                    <div className=''>
+                      <p className="text-[16px] font-semibold border-b-1 border-[#EEEEEE] pb-[20px]">Сума</p>
                     </div>
                   </div>
+                  <div className="w-full mb-[30px]"></div>
                   <div className="flex flex-col gap-[30px]">
                     {order.products.map((product, i) => (
                       <ProfileItem 

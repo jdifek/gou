@@ -5,7 +5,11 @@ import ProfileItem from '@/shared/components/ProfileItem';
 import { RiArrowLeftSLine } from 'react-icons/ri'; // Import the left arrow icon
 
 import img from "../../../public/assets/item-placeholder-7.png";
+import img2 from "../../../public/assets/item-placeholder.png";
+import img3 from "../../../public/assets/item-placeholder-5.jpg";
 import { StaticImageData } from 'next/image';
+import { GoPlus } from "react-icons/go";
+
 
 interface Product {
   id: number;
@@ -36,30 +40,28 @@ const Profile: React.FC = () => {
   const menuItems = ["Мої дані", "Історія замовлень", "Обране"];
 
   useEffect(() => {
-    setWindowWidth(window.innerWidth);
-
-    if (window.innerWidth <= 1023) {
-      setIsMobile(true);
-    }
-    window.addEventListener("resize", () => {
-      setWindowWidth(window.innerWidth);
-    });
-
-    console.log(isMobile);
+    const handleResize = () => {
+      const newWidth = window.innerWidth;
+      setWindowWidth(newWidth);
+      setIsMobile(newWidth <= 1023);
+    };
+  
+    handleResize();
+  
+    window.addEventListener("resize", handleResize);
+  
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
   }, []);
-
+  
   useEffect(() => {
-    if (windowWidth <= 1023) {
-      setIsMobile(true);
-    } else {
-      setIsMobile(false);
-    }
-    console.log(windowWidth);
-  }, [windowWidth]);
+    setActiveMenu(isMobile ? "" : "Історія замовлень");
 
-  useEffect(() => {
-    !isMobile ? setActiveMenu("Історія замовлень") : setActiveMenu("");
+    if (isMobile == true) setIsHideInfo(false);
+    else setIsHideInfo(true);
   }, [isMobile]);
+
 
   const orders: Order[] = [
     {
@@ -83,7 +85,7 @@ const Profile: React.FC = () => {
           id: 2, 
           name: "Лонгслив жіночий бежевий", 
           originalPrice: 199, 
-          image: img, 
+          image: img2, 
           size: "M",  
           model: "755GR", 
           availability: "наявності", 
@@ -94,7 +96,7 @@ const Profile: React.FC = () => {
     {
       id: "2",
       orderNumber: "№13334",
-      status: "Відмінено",
+      status: "Вiдмiнено",
       date: "24.02.2024",
       total: 300,
       products: [
@@ -102,7 +104,7 @@ const Profile: React.FC = () => {
           id: 3, 
           name: "Кавомолка", 
           originalPrice: 399, 
-          image: img, 
+          image: img3, 
           size: "M-L",  
           model: "75SGR", 
           availability: "наявності", 
@@ -130,12 +132,12 @@ const Profile: React.FC = () => {
                 />
                 <span className='mx-auto'>Історія замовлень</span>
               </h2>
-              {orders.map((order) => (
-                <div key={order.id} className="bg-white p-4 mb-4">
+              {orders.map((order, i) => (
+                <div key={order.id} className={`bg-white p-4 mb-4 ${i != 0 ? "border-t-1 border-[#888888] mt-[30px] pt-[30px]" : ""}`}>
                   <div className="flex justify-between items-center mb-4">
                     <p className="text-lg font-semibold">№{order.orderNumber}</p>
                     <p className="text-sm text-gray-500">{order.date}</p>
-                    <p className={`text-sm ${order.status === "Виконано" ? "text-green-600" : "text-red-600"}`}>
+                    <p className={`text-sm ${order.status === "Виконано" ? "text-green-600" : "text-[#888888]"}`}>
                       {order.status}
                     </p>
                   </div>
@@ -156,46 +158,52 @@ const Profile: React.FC = () => {
             </div>
           );
         }
-        return (
-          <div className="w-full bg-[#FAFAFA] p-[30px]">
-            <h2 className="text-[20px] font-semibold mb-[30px]">Історія замовлень</h2>
-            {orders.map((order) => (
-              <div key={order.id} className="bg-transparent mb-6">
-                <div className="flex justify-between mb-[30px]">
-                  <div>
-                    <p className="text-[16px] font-semibold">№ Замовлення</p>
-                    <p className="font-medium mt-[30px]">{order.orderNumber}</p>
+        else{
+          return (
+            <div className="w-full bg-[#FAFAFA] p-[30px]">
+              <h2 className="text-[20px] font-semibold mb-[30px]">Історія замовлень</h2>
+              {orders.map((order, i) => (
+                <div key={order.id} className={`${i != 0 ? "border-t-1 border-[#888888] mt-[30px] pt-[30px]" : ""} bg-transparent mb-6`}>
+                  <div className="flex justify-between mb-[30px]">
+                    <div>
+                      <p className="text-[16px] font-semibold">№ Замовлення</p>
+                      <p className="font-medium mt-[30px]">{order.orderNumber}</p>
+                    </div>
+                    <div className=""></div>
+                    <div className="flex gap-[100px] justify-between">
+                      <div>
+                        <p className="text-[16px] font-semibold">Статус</p>
+                        <p className={`font-medium mt-[30px] ${order.status === "Виконано" ? "text-green-600" : "text-[#888888]"}`}>{order.status}</p>
+                      </div>
+                      <div>
+                        <p className="text-[16px] font-semibold">Дата</p>
+                        <p className="font-medium mt-[30px]">{order.date}</p>
+                      </div>
+                    </div>
+                    <div>
+                      <p className="text-[16px] font-semibold">Сума</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-[16px] font-semibold">Статус</p>
-                    <p className="font-medium mt-[30px] text-green-600">{order.status}</p>
+                  <div className="flex flex-col gap-[30px]">
+                    {order.products.map((product, i) => (
+                      <ProfileItem 
+                        key={product.id}
+                        item={product}
+                        isButton={false}
+                      />
+                    ))}
                   </div>
-                  <div>
-                    <p className="text-[16px] font-semibold">Дата</p>
-                    <p className="font-medium mt-[30px]">{order.date}</p>
-                  </div>
-                  <div>
-                    <p className="text-[16px] font-semibold">Сума</p>
+                  <div className="flex justify-end mt-[30px]">
+                    <div className="text-lg font-semibold">
+                      Всього: <span>{order.total} грн</span>
+                    </div>
                   </div>
                 </div>
-                <div className="flex flex-col gap-[30px]">
-                  {order.products.map((product) => (
-                    <ProfileItem 
-                      key={product.id}
-                      item={product}
-                      isButton={false}
-                    />
-                  ))}
-                </div>
-                <div className="flex justify-end mt-[30px]">
-                  <div className="text-lg font-semibold">
-                    Всього: <span>{order.total} грн</span>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        );
+              ))}
+            </div>
+          );
+        }
+        
       case "Мої дані":
         if (isMobile) {
           return (
@@ -249,7 +257,9 @@ const Profile: React.FC = () => {
                   <p className="text-[16px]">Одеса, вул. Мельницька, 112</p>
                 </div>
                 <div className="flex justify-between">
-                  <button className="text-[#45B7FE] text-[14px]">+ Додати ще адресу</button>
+                  <button className="text-[#45B7FE] text-[14px] flex items-center gap-[10px]">
+                    <GoPlus color='#45B7FE' size={25} />
+                    Додати ще адресу</button>
                   <button className="text-[#45B7FE] text-[14px]">Редагувати</button>
                 </div>
               </div>
@@ -258,7 +268,7 @@ const Profile: React.FC = () => {
         } else {
           return (
             <div className="w-full bg-[#FAFAFA] p-8">
-              <h2 className="text-[20px] font-semibold mb-[20px]">ОСНОВНА ІНФОРМАЦІЯ</h2>
+              <h2 className="text-[20px] font-semibold mb-[20px]">Основна інформація</h2>
               <div className="">
                 <div className="grid grid-cols-4 gap-4 items-center border-b border-[#EEEEEE] pb-[15px]">
                   <div>
@@ -287,7 +297,7 @@ const Profile: React.FC = () => {
                   </div>
                 </div>
                 <div className="mt-[60px]">
-                  <p className="text-[20px] font-semibold mb-[20px]">КОНТАКТИ ТА АДРЕСА ДОСТАВКИ</p>
+                  <p className="text-[20px] font-semibold mb-[20px]">Контакти та адрес доставки</p>
                   <div className="grid grid-cols-4 gap-4 items-center border-b border-[#EEEEEE] pb-[15px]">
                     <div>
                       <p className="text-[16px] font-semibold">Телефон</p>
@@ -312,14 +322,16 @@ const Profile: React.FC = () => {
                   </div>
                 </div>
                 <div className="">
-                  <p className="text-lg font-semibold mb-4 border-b border-[#EEEEEE] pb-[15px]">АДРЕСА</p>
+                  <p className="text-lg font-semibold mb-4 border-b border-[#EEEEEE] pb-[15px]">Адреса</p>
                   <div className="grid grid-cols-4 gap-4 items-center">
-                    <p className="text-[16px] col-span-3">Одеса, вул. Мельничука, 112</p>
+                    <p className="text-[16px] col-span-3">Oдеса, вул. Мельницька, 112</p>
                     <div className="text-right">
                       <button className="text-[#45B7FE] text-[14px] cursor-pointer">Редагувати</button>
                     </div>
                   </div>
-                  <p className="text-[#45B7FE] text-[14px] cursor-pointer mt-[20px]">+ Додати ще адресу</p>
+                  <p className="text-[#45B7FE] text-[14px] cursor-pointer mt-[20px] flex items-center gap-[10px]">
+                    <GoPlus color='#45B7FE' size={25} />
+                    Додати ще адресу</p>
                 </div>
               </div>
             </div>
@@ -371,8 +383,8 @@ const Profile: React.FC = () => {
     <div className="container mx-auto p-4">
       <h1 className={`${isMobile ? "text-center" : ""} text-2xl font-bold mb-4`}>ОСОБИСТИЙ КАБІНЕТ</h1>
       {isMobile ? (
-        <>
-          <p className={`mb-4 text-[14px] ${isHideInfo ? "hidden" : ""}`}>
+        <div>
+          <p className={`mb-4 text-[14px] ${isHideInfo ? "hidden" : "block"}`}>
             В особистому кабінеті ви можете подивитися історію ваших замовлень, змінити адресу електронної пошти, відредагувати і додати нову адресу доставки, управляти збереженими закладками, підписатися або скасувати підписку на нашу розсилку новин, роздрукувати рахунок і багато іншого.
           </p>
           <p className={`mb-4 text-[14px] ${isHideInfo ? "hidden" : ""}`}>Якщо у вас є питання до нас, заповніть форму зворотнього зв'язку на сторінці "Контакти".</p>
@@ -390,8 +402,8 @@ const Profile: React.FC = () => {
               </div>
             ))}
           </div>
-          {renderContent()} {/* Add renderContent here for mobile */}
-        </>
+          {renderContent()}
+        </div>
       ) : (
         <>
           <p className="mb-4 leading-[30px] text-[14px]">

@@ -20,6 +20,7 @@ interface Product {
   model: string;
   availability: string;
   prevPrice: number;
+  type: string;
 }
 
 interface Order {
@@ -79,7 +80,8 @@ const Profile: React.FC = () => {
           size: "M-L",  
           model: "755GR", 
           availability: "наявності", 
-          prevPrice: 599 
+          prevPrice: 599 ,
+          type: "clothes"
         },
         { 
           id: 2, 
@@ -89,7 +91,8 @@ const Profile: React.FC = () => {
           size: "M",  
           model: "755GR", 
           availability: "наявності", 
-          prevPrice: 599 
+          prevPrice: 599,
+          type: "clothes"
         },
       ]
     },
@@ -105,10 +108,11 @@ const Profile: React.FC = () => {
           name: "Кавомолка", 
           originalPrice: 399, 
           image: img3, 
-          size: "M-L",  
+          size: "",  
           model: "75SGR", 
           availability: "наявності", 
-          prevPrice: 559 
+          prevPrice: 559,
+          type: ""
         },
       ]
     }
@@ -135,7 +139,7 @@ const Profile: React.FC = () => {
               {orders.map((order, i) => (
                 <div key={order.id} className={`bg-white p-4 mb-4 ${i != 0 ? "border-t-1 border-[#888888] mt-[30px] pt-[30px]" : ""}`}>
                   <div className="flex justify-between items-center mb-4">
-                    <p className="text-lg font-semibold">№{order.orderNumber}</p>
+                    <p className={`text-lg font-semibold ${order.status != "Виконано" ? "line-through" : ""}`}>{order.orderNumber}</p>
                     <p className="text-sm text-gray-500">{order.date}</p>
                     <p className={`text-sm ${order.status === "Виконано" ? "text-green-600" : "text-[#888888]"}`}>
                       {order.status}
@@ -167,7 +171,7 @@ const Profile: React.FC = () => {
                   <div className="flex justify-between mb-[30px]">
                     <div>
                       <p className="text-[16px] font-semibold">№ Замовлення</p>
-                      <p className="font-medium mt-[30px]">{order.orderNumber}</p>
+                      <p className={`font-medium mt-[30px] ${order.status == "Вiдмiнено" ? "line-through" : ""}`}>{order.orderNumber}</p>
                     </div>
                     <div className=""></div>
                     <div className="flex gap-[100px] justify-between">
@@ -177,7 +181,7 @@ const Profile: React.FC = () => {
                       </div>
                       <div>
                         <p className="text-[16px] font-semibold">Дата</p>
-                        <p className="font-medium mt-[30px]">{order.date}</p>
+                        <p className="font-normal mt-[30px]">{order.date}</p>
                       </div>
                     </div>
                     <div>

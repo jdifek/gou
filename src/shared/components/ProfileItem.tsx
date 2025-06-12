@@ -12,6 +12,7 @@ interface ProfileItem {
   originalPrice?: number;
   image: StaticImageData;
   prevPrice: number;
+  type: string;
 }
 
 interface ProfileItemProps {
@@ -52,7 +53,7 @@ const ProfileItem: React.FC<ProfileItemProps> = ({ isButton, item }) => {
                 </button>
               )}
             </div>
-              <p className="text-[14px] font-medium">Розмір: {item.size}</p>
+              <p className={`text-[14px] font-medium ${item.type == "clothes" ? "block" : "hidden"}`}>Розмір: {item.size}</p>
             </div>
             <div className="flex flex-col gap-[0px]">
               <p className="text-[13px]"><span className="text-[#888888]">Модель:</span> {item.model}</p>

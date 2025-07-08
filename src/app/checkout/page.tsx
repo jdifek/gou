@@ -473,8 +473,8 @@ export default function Checkout() {
             </div>
           </div>
           {/* Правая часть */}
-          <div className="flex flex-col w-full md:w-[300px]">
-            <div className="mb-[12px] p-[20px] bg-[#FAFAFA] h-fit flex flex-col gap-[30px] font-inter">
+          <div className="flex lg:w-[30%] h-fit flex-col w-full md:w-[300px] lg:sticky lg:top-[30px]">
+          <div className="mb-[12px] p-[20px] bg-[#FAFAFA] h-fit flex flex-col gap-[30px] font-inter">
               <div className="flex justify-between items-center">
                 <span className="font-semibold text-[20px] leading-[130%] text-[#1c1c28]">
                   Промокод

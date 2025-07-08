@@ -25,7 +25,7 @@ export default function Cart() {
             <hr className="border-1 border-[#D8DADC] my-[30px]" />
             <CartItem />
           </div>
-          <div className="p-[20px] bg-[#FAFAFA] w-full lg:w-[30%] h-fit flex flex-col gap-[30px] font-inter">
+          <div className="p-[20px] lg:sticky lg:top-[30px] bg-[#FAFAFA] w-full lg:w-[30%] h-fit flex flex-col gap-[30px] font-inter">
             <p className="text-[24px] font-bold">Разом</p>
             <div className="flex flex-col gap-[14px]">
               <div className="flex items-center justify-between">

@@ -4,7 +4,7 @@ import { FavoritesIcon, TrashBinIcon } from "../icons";
 
 export const CartItem = () => {
   return (
-    <div className="flex flex-col gap-[20px]">
+    <div className="flex flex-col gap-[20px] ">
       <div className="flex flex-row justify-between items-end gap-[20px]">
         <div className="flex flex-col md:flex-row gap-[20px] md:gap-[10px]">
           <Image

@@ -8,12 +8,20 @@ export const CartItem = () => {
       <div className="flex flex-row justify-between items-end gap-[20px]">
         <div className="flex flex-col md:flex-row gap-[20px] md:gap-[10px]">
           <Image
+            className="hidden md:block"
             src="/assets/item-placeholder-7.png"
             alt="item"
             width={160}
             height={245}
           />
-          <div className="flex flex-col justify-between">
+          <div className="md:hidden flex gap-6">
+            <Image
+              src="/assets/item-placeholder-7.png"
+              alt="item"
+              width={80}
+              height={95}
+              className=""
+            />
             <div className="text-[14px] font-normal">
               <p>Костюм чоловічий флісовий</p>
               <p>
@@ -24,7 +32,37 @@ export const CartItem = () => {
               </p>
               <p>Кількість: 1</p>
             </div>
-            <div className="px-[20px] py-[10px] flex items-center gap-[15px] border-1 border-[#EEEEEE] w-fit mt-[20px] md:mt-0">
+          </div>
+
+          <div className="flex flex-col justify-between">
+            <div className="hidden md:block text-[14px] font-normal">
+              <p>Костюм чоловічий флісовий</p>
+              <p>
+                Колір: <span className="text-[#888888]">чорний</span>
+              </p>
+              <p>
+                Розмiр: <span className="text-[#888888]">M-L</span>
+              </p>
+              <p>Кількість: 1</p>
+            </div>
+            <div className="md:hidden items-end justify-between flex">
+            <div className="px-[10px] py-[5px] flex items-center gap-[10px] border-1 border-[#EEEEEE] w-fit mt-[0px] md:mt-0">
+              <button className="cursor-pointer">
+                <AiOutlineMinus size={20} />
+              </button>
+              <p className="text-[20px] px-[27px] border-x-1 border-x-[#D9D9D9]">
+                1
+              </p>
+              <button className="cursor-pointer">
+                <AiOutlinePlus size={20} />
+              </button>
+            </div>
+            <div className="md:hidden flex flex-col sm:flex-row text-[16px] font-medium sm:gap-[10px]">
+              <p className="line-through">1000 грн</p>
+              <p className="text-[#D13030]">399 грн</p>
+            </div>
+            </div>
+            <div className="hidden md:flex px-[20px] py-[10px] items-center gap-[15px] border-1 border-[#EEEEEE] w-fit mt-[20px] md:mt-0">
               <button className="cursor-pointer">
                 <AiOutlineMinus size={20} />
               </button>
@@ -37,7 +75,7 @@ export const CartItem = () => {
             </div>
           </div>
         </div>
-        <div className="flex flex-col sm:flex-row text-[16px] font-medium sm:gap-[10px]">
+        <div className="hidden md:flex flex-col sm:flex-row text-[16px] font-medium sm:gap-[10px]">
           <p className="line-through">1000 грн</p>
           <p className="text-[#D13030]">399 грн</p>
         </div>

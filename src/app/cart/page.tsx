@@ -1,4 +1,5 @@
 import { CartItem } from "@/shared/components/CartItem";
+import Link from "next/link";
 
 export default function Cart() {
   return (
@@ -46,9 +47,11 @@ export default function Cart() {
               <p>До сплати</p>
               <p>1098 ₴</p>
             </div>
-            <button className="w-full text-center bg-black text-white text-[14px] font-normal h-[44px] cursor-pointer">
-              Оформити замовлення
-            </button>
+            <Link href={"/success-order"}>
+              <button className="w-full text-center bg-black text-white text-[14px] font-normal h-[44px] cursor-pointer">
+                Оформити замовлення
+              </button>
+            </Link>
             <p className="text-[#888888] underline text-[12px] font-medium text-center cursor-pointer">
               Пiдвердждуючи замовлення, я приймаю умови.
             </p>

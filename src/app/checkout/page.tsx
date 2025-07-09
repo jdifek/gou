@@ -99,26 +99,11 @@ export default function Checkout() {
                 Ваші контактні дані
               </p>
 
-              <div className="flex items-center justify-between h-[38px] mb-[30px] w-full bg-white border-b border-[#888] px-[10px] py-[10px]">
-                <input
-                  type="text"
-                  className="flex-grow text-[14px] leading-[122%] font-medium text-[#1c1c28] outline-none"
-                  placeholder="Ваше ім’я"
-                  style={{ fontFamily: "var(--font-family)" }}
-                />
-                <span
-                  className="text-[14px] font-medium leading-[122%] text-[#45b7fe]"
-                  style={{ fontFamily: "var(--font-family)" }}
-                >
-                  Змінити
-                </span>
-              </div>
-
               <div className="flex items-center justify-between h-[38px] w-full bg-white border-b border-[#888] px-[10px] py-[10px]">
                 <input
                   type="text"
                   className="flex-grow text-[14px] leading-[122%] font-medium text-[#1c1c28] outline-none"
-                  placeholder="Ваше вулиця"
+                  placeholder="Ваше місто"
                   style={{ fontFamily: "var(--font-family)" }}
                 />
                 <span

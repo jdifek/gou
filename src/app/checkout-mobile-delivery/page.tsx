@@ -80,7 +80,7 @@ export default function CheckoutMobileDelivery() {
             className="block px-[20px] text-[16px] font-normal leading-[100%] tracking-[0.03em] text-[#888] "
             style={{ fontFamily: "var(--font-family)" }}
           >
-            Самовивіз з поштоматів
+            Самовивіз з відділення
             <br />
             Нова Пошта
           </p>

@@ -193,7 +193,7 @@ export default function Checkout() {
                       className="block py-[22px] text-[16px] font-normal leading-[100%] tracking-[0.03em] text-[#888]"
                       style={{ fontFamily: "var(--font-family)" }}
                     >
-                      Виберіть відповідний поштомат
+                      Виберіть відповідне відділення
                     </p>
                     <svg
                       width="10"
@@ -240,7 +240,7 @@ export default function Checkout() {
                         </button>
                         <input
                           type="text"
-                          placeholder="Знайдіть потрібний поштомат за номером або адресою"
+                          placeholder="Знайдіть потрібний відділення за номером або адресою"
                           className="outline-none w-full"
                           style={{
                             fontFamily: "var(--font-family)",
@@ -331,23 +331,7 @@ export default function Checkout() {
                 </div>
               </div>
 
-              <Link
-                href={"/checkout-mobile-delivery"}
-                className="h-[38px] md:hidden  border border-[#888] bg-white px-[10px] flex justify-between items-center"
-              >
-                <p
-                  className="font-normal text-[16px] leading-[100%] tracking-[0.03em] text-[#1c1c28]"
-                  style={{ fontFamily: "var(--font-family)" }}
-                >
-                  Самовивіз з Нової Пошти
-                </p>
-                <p
-                  className="font-medium text-[14px] leading-[122%] text-black"
-                  style={{ fontFamily: "var(--font-family)" }}
-                >
-                  119 грн
-                </p>
-              </Link>
+             
               <Link
                 href={"/checkout-mobile-delivery"}
                 className="mt-[10px] h-[38px] md:hidden  border border-[#888] bg-white px-[10px] flex justify-between items-center"
@@ -401,21 +385,41 @@ export default function Checkout() {
                     className="px-[10px] mb-[30px] flex justify-between items-center"
                   >
                     <div className="flex gap-[10px] items-center">
-                      <svg
-                        width="14"
-                        height="14"
-                        viewBox="0 0 14 14"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <circle
-                          cx="7"
-                          cy="7"
-                          r="6.5"
-                          fill="white"
-                          stroke="#888888"
-                        />
-                      </svg>
+                      {el === 'Оплатити зараз' ? (
+                         <svg
+                         width="14"
+                         height="14"
+                         viewBox="0 0 14 14"
+                         fill="none"
+                         xmlns="http://www.w3.org/2000/svg"
+                       >
+                         <circle
+                           cx="7"
+                           cy="7"
+                           r="6"
+                           fill="#D13030"
+                           stroke="white"
+                           stroke-width="2"
+                         />
+                       </svg>
+                      ) : (
+
+                    <svg
+                      width="14"
+                      height="14"
+                      viewBox="0 0 14 14"
+                      fill="none"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <circle
+                        cx="7"
+                        cy="7"
+                        r="6.5"
+                        fill="white"
+                        stroke="#888888"
+                      />
+                    </svg>
+                      )}
                       <p
                         className="text-[16px] w-[180px] font-normal leading-[100%] tracking-[0.03em] text-black"
                         style={{ fontFamily: "var(--font-family)" }}
@@ -445,7 +449,7 @@ export default function Checkout() {
                 <input
                   type="text"
                   className="flex-grow text-[14px] leading-[122%] font-medium text-[#1c1c28] outline-none"
-                  placeholder="Iм’я"
+                  placeholder="Прізвище та Імʼя"
                   style={{ fontFamily: "var(--font-family)" }}
                 />
                 <span
